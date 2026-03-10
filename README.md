@@ -20,6 +20,8 @@ self-diffusion coefficient is extracted from the mean-squared displacement
 ├── 01_gaff2_ethanol_md.ipynb    GAFF2 simulation (build, minimize, equilibrate, production)
 ├── 02_mace_ethanol_md.ipynb     MACE-OFF23 simulation (ML potential production run)
 ├── 03_analysis_msd.ipynb        MSD analysis and diffusion coefficient comparison
+├── 04_MD_for_VAMPnets.ipynb     Alanine dipeptide 60 ns MD for VAMPnets training data
+├── alanine-dipeptide.pdb        Solvated alanine dipeptide input structure
 ├── models/
 │   └── MACE-OFF23_small.model   Pre-downloaded MACE-OFF23 model
 └── README.md                    This file
@@ -175,6 +177,7 @@ Look for `md-demo` in the list.
 | `01_gaff2_ethanol_md.ipynb` | Builds 200 ethanol molecules, parameterizes with GAFF2, runs 500 ps NPT equilibration + 2 ns NVT production |
 | `02_mace_ethanol_md.ipynb` | Loads equilibrated box from Notebook 1, runs 200 ps NVT with MACE-OFF23 |
 | `03_analysis_msd.ipynb` | Computes MSD from both trajectories, fits diffusion coefficient, compares methods vs. experiment |
+| `04_MD_for_VAMPnets.ipynb` | Runs 60 ns NVT of alanine dipeptide at 400 K (AMBER ff14SB + TIP3P), saves 600-frame PDB for VAMPnets training |
 
 ### 2. Expected output
 
