@@ -1,12 +1,10 @@
-# Ethanol Self-Diffusion Coefficient via Molecular Dynamics
-
-**CSU Spring 2026 — Intro to ML + Molecular Dynamics Simulation**
+# CSU Spring 2026 — Intro to ML + Molecular Dynamics Simulation
 
 This repository contains theory + practial demonstrations of several ML algorithms, as well as
 hands-on demonstration of computing the self-diffusion coefficient of liquid ethanol from MD simulations using two
 different force field approaches.
 
-# Molecular Dynamics
+# MD - Ethanol Self-Diffusion Coefficient via Molecular Dynamicss
 1. **GAFF2** — a classical, empirically parameterized force field (General AMBER Force Field 2)
 2. **MACE-OFF23** — a machine-learned interatomic potential (MLIP) trained on quantum-mechanical data
 
