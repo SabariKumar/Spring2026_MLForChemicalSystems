@@ -37,7 +37,7 @@ class VampNetLoss(nn.Module):
     def __init__(self):
         super().__init__()
 
-    def forward(x: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
         """
         Calculates VAMP2 score from head outputs.
         Expects softmaxed outputs for x and y!
