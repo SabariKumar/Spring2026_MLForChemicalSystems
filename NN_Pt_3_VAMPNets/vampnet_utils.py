@@ -35,6 +35,7 @@ def com_center(coords: np.array, weights: np.array) -> np.array:
 
 class VampNetLoss(nn.Module):
     def __init__(self):
+        self.eps = 1e-10
         super().__init__()
 
     def forward(self, x: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
@@ -47,9 +48,31 @@ class VampNetLoss(nn.Module):
         Returns:
             torch.Tensor : VAMP2 loss
         """
+        x, y = self._prep_data(x, y)
         cov_00 = 1/(x.shape[0] - 1) * torch.matmul(x, x.T)
         cov_01 = 1/(x.shape[0] - 1) * torch.matmul(x, y.T)
+        cov_10 = 1/(x.shape[0] - 1) * torch.matmul(y, x.T)
         cov_11 = 1/(x.shape[0] - 1) * torch.matmul(y, y.T)
-        vamp_matrix = torch.sqrt(torch.linalg.solve(
-            torch.sqrt(torch.linalg.solve(cov_00, cov_01, left = True)), cov_11, left = False))
+        auto_cov_inv = self._inv(1/2 * (cov_00 + cov_11), True)
+        cross_cov = 1/2 * (cov_10 + cov_01)
+        vamp_matrix = auto_cov_inv @ cross_cov @ auto_cov_inv
         return -1*torch.square(torch.linalg.matrix_norm(vamp_matrix))
+
+    def _prep_data(self, x: torch.Tensor, y: torch.Tensor):
+        x_t = x.T
+        y_t = y.T
+        x_ = x_t - torch.mean(x, dim = 1)
+        y_ = y_t - torch.mean(y, dim = 1)
+        return x_, y_
+
+    def _inv(self, x: torch.Tensor, sqrt: bool):
+        eigval_all, eigvec_all = torch.linalg.eigh(x)
+        eigval_mask = eigval_all > self.eps
+        eigval = eigval_all[eigval_mask]
+        eigvec = eigvec_all[eigval_mask]
+        if sqrt:
+            eigval_inv= torch.diag(torch.sqrt(1/eigval))
+        else:
+            eigval_inv = torch.diag(1/eigval)
+        x_inv = eigvec.T @ eigval_inv @ eigvec
+        return x_inv
